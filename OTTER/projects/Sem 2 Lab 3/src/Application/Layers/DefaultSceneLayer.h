@@ -27,4 +27,5 @@ protected:
 	Gameplay::Scene::Sptr _currentScene;
 	bool activated = false;
 	Gameplay::GameObject::Sptr specBox;
+	Gameplay::GameObject::Sptr bullet;
 };

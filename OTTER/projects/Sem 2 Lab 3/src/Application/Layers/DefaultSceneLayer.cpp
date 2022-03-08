@@ -48,6 +48,7 @@
 #include "Gameplay/Components/SimpleCameraControl.h"
 #include "Gameplay/Components/Movement.h"
 #include "Gameplay/Components/bullet.h"
+#include "Gameplay/Components/EnemyMoving.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -94,6 +95,7 @@ void DefaultSceneLayer::OnUpdate() {
 
 	if (!activated) {
 		specBox = _currentScene->FindObjectByName("Specular Object");
+		bullet = _currentScene->FindObjectByName("Bullet");
 		activated = true;
 	}
 	//Bullet::Sptr bullettest;
@@ -297,7 +299,7 @@ void DefaultSceneLayer::_CreateScene()
 		}
 
 		// Create some lights for our scene
-		scene->Lights.resize(3);
+		scene->Lights.resize(4);
 		scene->Lights[0].Position = glm::vec3(0.0f, 1.0f, 3.0f);
 		scene->Lights[0].Color = glm::vec3(1.0f, 1.0f, 1.0f);
 		scene->Lights[0].Range = 100.0f;
@@ -307,6 +309,8 @@ void DefaultSceneLayer::_CreateScene()
 
 		scene->Lights[2].Position = glm::vec3(0.0f, 1.0f, 3.0f);
 		scene->Lights[2].Color = glm::vec3(1.0f, 0.2f, 0.1f);
+
+		//scene->Lights[3].Position = bullet->GetPosition();
 
 		// We'll create a mesh that is a simple plane that we can resize later
 		MeshResource::Sptr planeMesh = ResourceManager::CreateAsset<MeshResource>();
@@ -398,6 +402,19 @@ void DefaultSceneLayer::_CreateScene()
 
 			Bullet::Sptr testbullet = bullet->Add<Bullet>();
 
+			
+
+		}
+
+		GameObject::Sptr enemy = scene->CreateGameObject("Enemy");
+		{
+			enemy->SetPostion(glm::vec3(0, 5, 0));
+			enemy->SetRotation(glm::vec3(0, 0, 90));
+			RenderComponent::Sptr renderer = enemy->Add<RenderComponent>();
+			renderer->SetMesh(monkeyMesh);
+			renderer->SetMaterial(testMaterial);
+
+			EnemyMoving::Sptr enemymov = enemy->Add<EnemyMoving>();
 		}
 
 		// Create a trigger volume for testing how we can detect collisions with objects!
@@ -446,15 +463,6 @@ void DefaultSceneLayer::_CreateScene()
 			canvas->AddChild(subPanel);
 		}
 		*/
-
-		GameObject::Sptr particles = scene->CreateGameObject("Particles");
-		{
-			ParticleSystem::Sptr particleManager = particles->Add<ParticleSystem>();  
-			particleManager->AddEmitter(glm::vec3(0.0f), glm::vec3(0.0f, -1.0f, 10.0f), 10.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)); 
-		}
-
-		GuiBatcher::SetDefaultTexture(ResourceManager::CreateAsset<Texture2D>("textures/ui-sprite.png"));
-		GuiBatcher::SetDefaultBorderRadius(8);
 
 		// Save the asset manifest for all the resources we just loaded
 		ResourceManager::SaveManifest("scene-manifest.json");

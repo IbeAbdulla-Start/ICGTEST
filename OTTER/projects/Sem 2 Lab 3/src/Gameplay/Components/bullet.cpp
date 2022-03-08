@@ -10,6 +10,7 @@
 
 void Bullet::Awake()
 {
+    
 }
 
 void Bullet::RenderImGui()
@@ -49,7 +50,7 @@ extern bool Shooting;
 
 void Bullet::Update(float deltaTime)
 {
-
+ 
     if (InputEngine::IsKeyDown(GLFW_KEY_SPACE))
 
         if (fireTime <= 0)
@@ -77,7 +78,7 @@ void Bullet::Update(float deltaTime)
 
         glm::vec3 playerLocation = glm::vec3(playerX , -playerY, 0);
 
-        playerLocation *= deltaTime;
+        playerLocation *= deltaTime;  
 
         GetGameObject()->SetPostion(GetGameObject()->GetPosition() + playerLocation);
 

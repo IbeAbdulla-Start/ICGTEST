@@ -44,6 +44,9 @@
 #include "Gameplay/Components/ParticleSystem.h"
 #include "Gameplay/Components/Movement.h"
 #include "Gameplay/Components/bullet.h"
+#include "Gameplay/Components/EnemyMoving.h"
+
+
 
 // GUI
 #include "Gameplay/Components/GUI/RectTransform.h"
@@ -273,6 +276,7 @@ void Application::_RegisterClasses()
 	ComponentManager::RegisterType<ParticleSystem>();
 	ComponentManager::RegisterType<Movement>();
 	ComponentManager::RegisterType<Bullet>();
+	ComponentManager::RegisterType <EnemyMoving>();
 }
 
 void Application::_Load() {
